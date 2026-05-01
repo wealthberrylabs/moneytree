@@ -90,31 +90,36 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INT-01 | Phase TBD | Pending |
-| INT-02 | Phase TBD | Pending |
-| INT-03 | Phase TBD | Pending |
-| INT-04 | Phase TBD | Pending |
-| PIPE-01 | Phase TBD | Pending |
-| PIPE-02 | Phase TBD | Pending |
-| PIPE-03 | Phase TBD | Pending |
-| PIPE-04 | Phase TBD | Pending |
-| PIPE-05 | Phase TBD | Pending |
-| PIPE-06 | Phase TBD | Pending |
-| DATA-01 | Phase TBD | Pending |
-| DATA-02 | Phase TBD | Pending |
-| DATA-03 | Phase TBD | Pending |
-| SAFE-01 | Phase TBD | Pending |
-| SAFE-02 | Phase TBD | Pending |
-| SAFE-03 | Phase TBD | Pending |
-| SAFE-04 | Phase TBD | Pending |
-| EDU-01 | Phase TBD | Pending |
-| EDU-02 | Phase TBD | Pending |
+| INT-01 | Phase 3 | Pending |
+| INT-02 | Phase 3 | Pending |
+| INT-03 | Phase 3 | Pending |
+| INT-04 | Phase 3 | Pending |
+| PIPE-01 | Phase 2 | Pending |
+| PIPE-02 | Phase 2 | Pending |
+| PIPE-03 | Phase 2 | Pending |
+| PIPE-04 | Phase 2 | Pending |
+| PIPE-05 | Phase 2 | Pending |
+| PIPE-06 | Phase 2 | Pending |
+| DATA-01 | Phase 2 | Pending |
+| DATA-02 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Pending |
+| SAFE-01 | Phase 2 | Pending |
+| SAFE-02 | Phase 2 | Pending |
+| SAFE-03 | Phase 2 | Pending |
+| SAFE-04 | Phase 1 | Pending |
+| EDU-01 | Phase 2 | Pending |
+| EDU-02 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0 (will be filled by roadmapper)
-- Unmapped: 19 ⚠️ (expected pre-roadmap)
+- Mapped to phases: 19
+- Unmapped: 0
+
+**Per-phase counts:**
+- Phase 1 (Foundation): 4 requirements (DATA-02, DATA-03, SAFE-04, EDU-02)
+- Phase 2 (Pipeline Core): 11 requirements (PIPE-01..06, DATA-01, SAFE-01, SAFE-02, SAFE-03, EDU-01)
+- Phase 3 (Operator Surface): 4 requirements (INT-01, INT-02, INT-03, INT-04)
 
 ---
 *Requirements defined: 2026-04-30*
-*Last updated: 2026-04-30 after initial definition*
+*Last updated: 2026-04-30 — traceability mapped during roadmap creation*
