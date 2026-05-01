@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moneytree Architecture Diagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pulse-dot {
+      width: 12px;
+      height: 12px;
+      background: #34d399;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      margin-left: 1.75rem;
+    }
+
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 1rem;
+      border: 1px solid #1e293b;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 1100px;
+      display: block;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .card-dot.cyan { background: #22d3ee; }
+    .card-dot.emerald { background: #34d399; }
+    .card-dot.violet { background: #a78bfa; }
+    .card-dot.amber { background: #fbbf24; }
+    .card-dot.rose { background: #fb7185; }
+
+    .card h3 {
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .card ul {
+      list-style: none;
+      color: #94a3b8;
+      font-size: 0.75rem;
+    }
+
+    .card li {
+      margin-bottom: 0.375rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #475569;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .footer em {
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>Moneytree Architecture</h1>
+      </div>
+      <p class="subtitle">AionUi operator UX → Moneytree MCP server → LangGraph pipeline → Alpaca MCP execution</p>
+    </div>
+
+    <!-- Main Diagram -->
+    <div class="diagram-container">
+      <svg viewBox="0 0 1200 760">
+        <!-- Definitions -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <marker id="arrowhead-emerald" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#34d399" />
+          </marker>
+          <marker id="arrowhead-rose" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185" />
+          </marker>
+          <marker id="arrowhead-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24" />
+          </marker>
+          <marker id="arrowhead-violet" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background Grid -->
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- Pipeline boundary (LangGraph) -->
+        <rect x="180" y="130" width="1000" height="320" rx="12" fill="rgba(251, 146, 60, 0.05)" stroke="#fb923c" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="195" y="150" fill="#fb923c" font-size="10" font-weight="600">LangGraph Agent Pipeline · Path A: light wrapper → Path B: native fork</text>
+
+        <!-- =================================================================
+             ARROWS (drawn before components so they render behind boxes)
+             ================================================================= -->
+
+        <!-- AionUi ↔ Moneytree MCP (bidirectional MCP tool calls) -->
+        <line x1="80" y1="230" x2="80" y2="253" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="100" y1="253" x2="100" y2="230" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="155" y="244" fill="#22d3ee" font-size="8">MCP</text>
+        <text x="155" y="254" fill="#22d3ee" font-size="7">(stdio)</text>
+
+        <!-- Moneytree MCP → TA Engine (primary entry) -->
+        <line x1="160" y1="290" x2="198" y2="290" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead-emerald)"/>
+        <text x="180" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">ticker + thesis</text>
+
+        <!-- CLI Runner → TA Engine (demoted dev/test path, dashed) -->
+        <line x1="160" y1="375" x2="200" y2="335" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrowhead)"/>
+        <text x="170" y="360" fill="#64748b" font-size="7">dev/test</text>
+
+        <line x1="400" y1="260" x2="420" y2="260" stroke="#34d399" stroke-width="2" marker-end="url(#arrowhead-emerald)"/>
+        <line x1="620" y1="260" x2="640" y2="260" stroke="#34d399" stroke-width="2" marker-end="url(#arrowhead-emerald)"/>
+        <line x1="840" y1="260" x2="860" y2="260" stroke="#fb7185" stroke-width="2" marker-end="url(#arrowhead-rose)"/>
+
+        <!-- Top external → agents -->
+        <!-- Market Data → TA Engine (curved into top-left of TA) -->
+        <path d="M 110 90 Q 110 150 200 200" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="125" y="115" fill="#94a3b8" font-size="9">news + fundamentals</text>
+
+        <!-- LLM ↔ TA Engine (bidirectional) -->
+        <line x1="295" y1="90" x2="295" y2="178" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <line x1="315" y1="178" x2="315" y2="90" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <text x="305" y="110" fill="#fbbf24" font-size="9" text-anchor="middle">analyst debate</text>
+
+        <!-- LLM ↔ Strategist (bidirectional) -->
+        <line x1="510" y1="90" x2="510" y2="178" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <line x1="530" y1="178" x2="530" y2="90" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <text x="520" y="110" fill="#fbbf24" font-size="9" text-anchor="middle">structure pick</text>
+
+        <!-- Alpaca MCP → Strategist (chain + IV) -->
+        <path d="M 730 90 Q 700 140 540 178" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <text x="660" y="105" fill="#fbbf24" font-size="9">chain + IV</text>
+
+        <!-- PM → Alpaca MCP (submit order) -->
+        <line x1="1010" y1="178" x2="1010" y2="90" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <text x="1025" y="135" fill="#fbbf24" font-size="9">submit order</text>
+
+        <!-- Bottom: TA ↔ Chroma (bidirectional) -->
+        <line x1="295" y1="340" x2="295" y2="476" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead-violet)"/>
+        <line x1="315" y1="476" x2="315" y2="340" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead-violet)"/>
+        <text x="305" y="415" fill="#a78bfa" font-size="9" text-anchor="middle">read/write memory</text>
+
+        <!-- PM → SQLite -->
+        <line x1="1040" y1="340" x2="1040" y2="476" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead-violet)"/>
+        <text x="1055" y="415" fill="#a78bfa" font-size="9">fill + PnL</text>
+
+        <!-- =================================================================
+             COMPONENTS
+             ================================================================= -->
+
+        <!-- Top external services -->
+        <!-- Market Data Feeds -->
+        <rect x="20" y="30" width="180" height="60" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="110" y="50" fill="white" font-size="11" font-weight="600" text-anchor="middle">Market Data Feeds</text>
+        <text x="110" y="66" fill="#94a3b8" font-size="9" text-anchor="middle">news · fundamentals</text>
+        <text x="110" y="80" fill="#fb7185" font-size="7" text-anchor="middle">date-capped (anti look-ahead)</text>
+
+        <!-- LLM Provider -->
+        <rect x="240" y="30" width="380" height="60" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="430" y="50" fill="white" font-size="11" font-weight="600" text-anchor="middle">LLM Provider</text>
+        <text x="430" y="66" fill="#94a3b8" font-size="9" text-anchor="middle">analyst debate · options structure picker</text>
+        <text x="430" y="80" fill="#fbbf24" font-size="8" text-anchor="middle">shared by TA Engine + Options Strategist</text>
+
+        <!-- Alpaca MCP Paper -->
+        <rect x="660" y="30" width="500" height="60" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="910" y="50" fill="white" font-size="11" font-weight="600" text-anchor="middle">Alpaca MCP Paper · alpacahq/alpaca-mcp-server</text>
+        <text x="910" y="66" fill="#94a3b8" font-size="9" text-anchor="middle">option chain · IV · multi-leg order submit (≤4 legs in one call)</text>
+        <text x="910" y="80" fill="#fbbf24" font-size="8" text-anchor="middle">paper keys · level-3 options · NBBO historical (slippage matters)</text>
+
+        <!-- AionUi (operator UX surface) -->
+        <rect x="20" y="170" width="140" height="60" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="90" y="190" fill="white" font-size="11" font-weight="600" text-anchor="middle">AionUi</text>
+        <text x="90" y="206" fill="#94a3b8" font-size="9" text-anchor="middle">operator UX (desktop)</text>
+        <text x="90" y="220" fill="#22d3ee" font-size="8" text-anchor="middle">Electron + React · MCP client</text>
+
+        <!-- Moneytree MCP Server -->
+        <rect x="20" y="255" width="140" height="70" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="90" y="275" fill="white" font-size="11" font-weight="600" text-anchor="middle">Moneytree MCP</text>
+        <text x="90" y="288" fill="#94a3b8" font-size="8" text-anchor="middle">FastMCP · stdio default</text>
+        <text x="90" y="301" fill="#94a3b8" font-size="8" text-anchor="middle">run_thesis · propose_trade</text>
+        <text x="90" y="314" fill="#94a3b8" font-size="8" text-anchor="middle">assess · submit · positions</text>
+
+        <!-- CLI Runner (demoted to dev/test path) -->
+        <rect x="20" y="350" width="140" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="90" y="370" fill="white" font-size="10" font-weight="600" text-anchor="middle">CLI Runner</text>
+        <text x="90" y="384" fill="#94a3b8" font-size="8" text-anchor="middle">dev / test path only</text>
+        <text x="90" y="395" fill="#fb7185" font-size="7" text-anchor="middle">not primary surface</text>
+
+        <!-- ============== AGENT NODES (with opaque mask layer) ============== -->
+
+        <!-- TradingAgents Engine -->
+        <rect x="200" y="180" width="200" height="160" rx="6" fill="#0f172a"/>
+        <rect x="200" y="180" width="200" height="160" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="300" y="203" fill="white" font-size="12" font-weight="600" text-anchor="middle">TradingAgents Engine</text>
+        <text x="300" y="221" fill="#94a3b8" font-size="9" text-anchor="middle">upstream LangGraph (v0.2.4)</text>
+        <text x="300" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">• 4 analysts</text>
+        <text x="300" y="259" fill="#94a3b8" font-size="8" text-anchor="middle">• bull / bear researchers</text>
+        <text x="300" y="273" fill="#94a3b8" font-size="8" text-anchor="middle">• debate memory</text>
+        <text x="300" y="297" fill="#34d399" font-size="9" text-anchor="middle" font-weight="600">→ direction + confidence</text>
+        <text x="300" y="320" fill="#fbbf24" font-size="7" text-anchor="middle">(typed verdict, not BUY/SELL/HOLD)</text>
+
+        <!-- Options Strategist -->
+        <rect x="420" y="180" width="200" height="160" rx="6" fill="#0f172a"/>
+        <rect x="420" y="180" width="200" height="160" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="520" y="203" fill="white" font-size="12" font-weight="600" text-anchor="middle">Options Strategist</text>
+        <text x="520" y="221" fill="#94a3b8" font-size="9" text-anchor="middle">chain + IV → structure</text>
+        <text x="520" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">• vertical / calendar</text>
+        <text x="520" y="259" fill="#94a3b8" font-size="8" text-anchor="middle">• iron condor / butterfly</text>
+        <text x="520" y="273" fill="#94a3b8" font-size="8" text-anchor="middle">• thesis-match score</text>
+        <text x="520" y="297" fill="#34d399" font-size="9" text-anchor="middle" font-weight="600">→ trade proposal</text>
+        <text x="520" y="320" fill="#fbbf24" font-size="7" text-anchor="middle">(legs, max loss, BE, Greeks)</text>
+
+        <!-- Greeks Risk Manager (rose - hard gate) -->
+        <rect x="640" y="180" width="200" height="160" rx="6" fill="#0f172a"/>
+        <rect x="640" y="180" width="200" height="160" rx="6" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1.5"/>
+        <text x="740" y="203" fill="white" font-size="12" font-weight="600" text-anchor="middle">Greeks Risk Manager</text>
+        <text x="740" y="221" fill="#94a3b8" font-size="9" text-anchor="middle">hard gate + sizing</text>
+        <text x="740" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">• Δ Γ ν Θ aggregation</text>
+        <text x="740" y="259" fill="#94a3b8" font-size="8" text-anchor="middle">• scenario PnL ±1σ ±2σ</text>
+        <text x="740" y="273" fill="#94a3b8" font-size="8" text-anchor="middle">• ±5 vol points stress</text>
+        <text x="740" y="297" fill="#fb7185" font-size="9" text-anchor="middle" font-weight="600">→ approved + sizing</text>
+        <text x="740" y="320" fill="#fb7185" font-size="7" text-anchor="middle">(rejects breaches, not advisory)</text>
+
+        <!-- Portfolio Manager -->
+        <rect x="860" y="180" width="300" height="160" rx="6" fill="#0f172a"/>
+        <rect x="860" y="180" width="300" height="160" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="1010" y="203" fill="white" font-size="12" font-weight="600" text-anchor="middle">Portfolio Manager</text>
+        <text x="1010" y="221" fill="#94a3b8" font-size="9" text-anchor="middle">execution + persistence</text>
+        <text x="1010" y="245" fill="#94a3b8" font-size="8" text-anchor="middle">• submit multi-leg order via Alpaca MCP</text>
+        <text x="1010" y="259" fill="#94a3b8" font-size="8" text-anchor="middle">• broker enforces margin (pre-check first)</text>
+        <text x="1010" y="273" fill="#94a3b8" font-size="8" text-anchor="middle">• write fill + PnL on confirm</text>
+        <text x="1010" y="297" fill="#34d399" font-size="9" text-anchor="middle" font-weight="600">does not re-decide structure or size</text>
+        <text x="1010" y="320" fill="#fbbf24" font-size="7" text-anchor="middle">(human-readable rationale required on every order)</text>
+
+        <!-- ============== BOTTOM SERVICES ============== -->
+
+        <!-- Chroma -->
+        <rect x="240" y="478" width="160" height="70" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="320" y="498" fill="white" font-size="11" font-weight="600" text-anchor="middle">Chroma</text>
+        <text x="320" y="514" fill="#94a3b8" font-size="9" text-anchor="middle">debate vector memory</text>
+        <text x="320" y="528" fill="#a78bfa" font-size="8" text-anchor="middle">read/write across runs</text>
+        <text x="320" y="542" fill="#fb7185" font-size="7" text-anchor="middle">daily cadence only · 0DTE needs separate store</text>
+
+        <!-- SQLite -->
+        <rect x="940" y="478" width="200" height="70" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1040" y="498" fill="white" font-size="11" font-weight="600" text-anchor="middle">SQLite Trade Log</text>
+        <text x="1040" y="514" fill="#94a3b8" font-size="9" text-anchor="middle">fill + PnL persistence</text>
+        <text x="1040" y="528" fill="#a78bfa" font-size="8" text-anchor="middle">single file · ./data/*.db</text>
+        <text x="1040" y="542" fill="#94a3b8" font-size="7" text-anchor="middle">repo-portable</text>
+
+        <!-- =================================================================
+             LEGEND
+             ================================================================= -->
+        <text x="20" y="600" fill="white" font-size="10" font-weight="600">Legend</text>
+
+        <rect x="20" y="612" width="16" height="10" rx="2" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1"/>
+        <text x="42" y="620" fill="#94a3b8" font-size="8">Operator UX (AionUi)</text>
+
+        <rect x="180" y="612" width="16" height="10" rx="2" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+        <text x="202" y="620" fill="#94a3b8" font-size="8">Agent / MCP server</text>
+
+        <rect x="340" y="612" width="16" height="10" rx="2" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1"/>
+        <text x="362" y="620" fill="#94a3b8" font-size="8">Risk gate (hard)</text>
+
+        <rect x="480" y="612" width="16" height="10" rx="2" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="502" y="620" fill="#94a3b8" font-size="8">External MCP / LLM</text>
+
+        <rect x="640" y="612" width="16" height="10" rx="2" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="662" y="620" fill="#94a3b8" font-size="8">Persistence</text>
+
+        <rect x="760" y="612" width="16" height="10" rx="2" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1"/>
+        <text x="782" y="620" fill="#94a3b8" font-size="8">External feed</text>
+
+        <rect x="880" y="608" width="16" height="14" rx="3" fill="rgba(251, 146, 60, 0.05)" stroke="#fb923c" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="902" y="620" fill="#94a3b8" font-size="8">Pipeline boundary</text>
+
+        <line x1="20" y1="645" x2="36" y2="645" stroke="#34d399" stroke-width="2" marker-end="url(#arrowhead-emerald)"/>
+        <text x="42" y="648" fill="#94a3b8" font-size="8">data flow (typed verdict)</text>
+
+        <line x1="220" y1="645" x2="236" y2="645" stroke="#fb7185" stroke-width="2" marker-end="url(#arrowhead-rose)"/>
+        <text x="242" y="648" fill="#94a3b8" font-size="8">approved + sizing</text>
+
+        <line x1="380" y1="645" x2="396" y2="645" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead-amber)"/>
+        <text x="402" y="648" fill="#94a3b8" font-size="8">external service call</text>
+
+        <line x1="540" y1="645" x2="556" y2="645" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead-violet)"/>
+        <text x="562" y="648" fill="#94a3b8" font-size="8">persistence I/O</text>
+
+        <!-- Disclaimer band -->
+        <text x="600" y="690" fill="#475569" font-size="9" text-anchor="middle" font-style="italic">Educational / research only. Not financial advice. Inherits TradingAgents disclaimer.</text>
+        <text x="600" y="708" fill="#475569" font-size="8" text-anchor="middle">Wealthberry Labs · 2026-04 · source of truth: moneytree-whitepaper.pdf</text>
+      </svg>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot emerald"></div>
+          <h3>Agent Pipeline</h3>
+        </div>
+        <ul>
+          <li>• AionUi → Moneytree MCP (ticker + thesis)</li>
+          <li>• TA Engine → direction + confidence</li>
+          <li>• Strategist → trade proposal (legs, Greeks, BE)</li>
+          <li>• Risk Mgr → approved + sizing (hard gate)</li>
+          <li>• PM → multi-leg submit + log fill</li>
+          <li>• CLI Runner kept as dev/test path only</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Persistence &amp; I/O</h3>
+        </div>
+        <ul>
+          <li>• Chroma: debate vector memory (RW)</li>
+          <li>• SQLite: fill + PnL trade log</li>
+          <li>• Alpaca MCP Paper: chain · IV · exec</li>
+          <li>• Multi-leg ≤4 legs in one API call</li>
+          <li>• NBBO backtest fills-at-mid optimistic</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot rose"></div>
+          <h3>Risk Gate &amp; Known Traps</h3>
+        </div>
+        <ul>
+          <li>• Greeks RM rejects breaches, not advisory</li>
+          <li>• Look-ahead: cap dates in every tool call</li>
+          <li>• Daily cadence ≠ 0DTE / weeklies</li>
+          <li>• Defined-risk ≠ naked premium sizing</li>
+          <li>• Pre-check margin before broker submit</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="footer">
+      Moneytree · TradingAgents v0.2.4 fork · Path A wrapper → Path B native LangGraph fork · Python (uv or poetry, pick one) · Wealthberry Labs<br>
+      <em>Reference diagram for the architecture described in CLAUDE.md and moneytree-whitepaper.pdf</em>
+    </p>
+  </div>
+</body>
+</html>
