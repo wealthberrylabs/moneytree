@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Interface
 
-- [ ] **INT-01**: Moneytree exposes its pipeline as an MCP server using `FastMCP` (streamable-http stateless, `json_response=True`) with Pydantic-typed tool returns
+- [ ] **INT-01**: Moneytree exposes its pipeline as an MCP server using `FastMCP` over **stdio transport** (default; AionUi spawns it as a subprocess via `command` + `args`) with Pydantic-typed tool returns. Optional secondary `streamable-http` transport may be exposed for browser/HTTP clients.
 - [ ] **INT-02**: AionUi (`iOfficeAI/AionUi`) connects as the primary operator UX surface and successfully invokes Moneytree MCP tools
 - [ ] **INT-03**: A CLI Runner accepts `ticker + thesis` as the dev/test path that exercises the same pipeline functions as the MCP tools (no parallel code path)
 - [ ] **INT-04**: Operator can request a full pipeline run (`run_full_pipeline(ticker, thesis) -> FillResult`) and receive a structured result without manual stage-by-stage invocation
