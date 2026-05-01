@@ -1,0 +1,9 @@
+Moneytree
+Copyright 2026 Wealthberry Labs
+
+This product is a fork of TradingAgents (https://github.com/TauricResearch/TradingAgents)
+by Tauric Research, used under the Apache License, Version 2.0.
+
+Moneytree adds a native options layer (Options Strategist + Greeks Risk Manager + Portfolio
+Manager) on top of the upstream TradingAgents LangGraph pipeline. Upstream attribution
+applies to the inherited multi-agent debate framework.
